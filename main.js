@@ -45,6 +45,7 @@ const answerButton = document.getElementById('answerButton');
 const remoteVideo = document.getElementById('remoteVideo');
 const hangupButton = document.getElementById('hangupButton');
 const callKey = document.getElementById('callKey');
+var shareUrlText = document.getElementById('shareUrl');
 
 // 1. Setup media sources
 webcamButton.onclick = async () => {
@@ -64,6 +65,7 @@ var startWebcam = async () => {
   pc.ontrack = (event) => {
     event.streams[0].getTracks().forEach((track) => {
       remoteStream.addTrack(track);
+      console.log(remoteStream);
     });
   };
 
@@ -133,7 +135,8 @@ answerButton.onclick = async () => {
 function copyLink(value) {
   const key = value;
   const shareUrl = window.location.href + '?key=' + key;
-  alert("Share the link to the other party, " + shareUrl);
+  shareUrlText.textContent = "Share join link";
+  shareUrlText.href = shareUrl;
 }
 
 var answerCall = async(key = null) => {
@@ -179,6 +182,5 @@ var answerCall = async(key = null) => {
 }
 
 if(keyFromUrlParams) {
-  startWebcam();
   answerCall(keyFromUrlParams);
 }
